@@ -156,20 +156,23 @@ public class RulesetCompiler
 		Env.c("RulesetGenerator.runStartWithNull");
 
 		// グローバルルート膜
-		Membrane root = new Membrane(null);
+		//		Membrane root = new Membrane(null);
 
 		// 初期構造を生成するルール
-		RuleStructure rs = RuleStructure.createInitialRule(root);
-		rs.leftMem  = new Membrane(null);
-		rs.rightMem = m;
-		root.rules.add(rs);
+		//		RuleStructure rs = RuleStructure.createInitialRule(root);
+		//		rs.leftMem  = new Membrane(null);
+		//		rs.rightMem = m;
+		//		root.rules.add(rs);
 
-		processMembrane(root, unitName);
+		//		processMembrane(root, unitName);
+		processMembrane(m, unitName);
 
 		if (Env.fUseSourceLibrary)
 		{
-			Module.resolveModules(root);
+		    //			Module.resolveModules(root);
+			Module.resolveModules(m);
 		}
-		return root;
+		//		return root;
+		return m;
 	}
 }

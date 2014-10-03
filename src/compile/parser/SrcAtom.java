@@ -76,6 +76,7 @@ class SrcAtom
 		this.process = process;
 		this.line = line;
 		this.column = column;	
+		LinkedList guard;
 	}
 
 	public void setSourceLocation(int line, int column)

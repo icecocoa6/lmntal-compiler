@@ -672,7 +672,7 @@ public class FrontEnd
 	 */
 	private static void showIL(InterpretedRuleset rs, compile.structure.Membrane m)
 	{
-		rs.showDetail();
+	    //		rs.showDetail();
 		m.showAllRules();
 	}
 

@@ -82,6 +82,7 @@ public class LMNParser {
 		LinkedList srcProcess = parseSrc();
 		setRuleText(srcProcess);
 		Membrane mem = new Membrane(null);
+                mem.name = "$ROOT";
 		expander.incorporateSignSymbols(srcProcess);
 //		expander.incorporateModuleNames(srcProcess);
 		expander.expandAtoms(srcProcess);
@@ -167,8 +168,18 @@ public class LMNParser {
 	 */
 	void addProcessToMem(LinkedList list, Membrane mem) throws ParseException {
 		Iterator it = list.iterator();
-		while (it.hasNext()) {
-			addObjectToMem(it.next(), mem);
+	if (!(mem.name != null && (mem.name.equals("$ROOT")))) {
+			while (it.hasNext()) {
+				addObjectToMem(it.next(), mem);
+			}
+		} else {
+			LinkedList body = new LinkedList();
+			while (it.hasNext()) {
+				body.add(it.next());
+			}
+			expander.flatten(body);
+			SrcRule sr = new SrcRule("_init", new LinkedList(), body);
+			addSrcRuleToMem(sr, mem);
 		}
 	}
 	/**
@@ -356,7 +367,12 @@ public class LMNParser {
 	 */
 	private void addSrcRuleToMem(SrcRule sRule, Membrane mem) throws ParseException {
 		//2006.1.22 linenoを追加 by inui
-		RuleStructure rule = new RuleStructure(mem, sRule.getText(), sRule.lineno);
+	    RuleStructure rule;
+	    if (sRule.name != null && sRule.name.equals("_init")) {
+		rule = RuleStructure.createInitialRule(mem);
+	    } else {
+		rule = new RuleStructure(mem, sRule.getText(), sRule.lineno);
+	    }
 		rule.name = sRule.name;
 		// 略記法の展開		
 		expander.expandRuleAbbreviations(sRule);
@@ -1335,7 +1351,7 @@ class SyntaxExpander {
 	 * (t1,,tn) → t1,,tn
 	 * </pre>
 	 */
-	private void flatten(LinkedList process) {
+	void flatten(LinkedList process) {
 		LinkedList srcprocess = (LinkedList)process.clone();
 		process.clear();
 		ListIterator it = srcprocess.listIterator();

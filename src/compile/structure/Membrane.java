@@ -132,7 +132,8 @@ public final class Membrane
 
 	public String toString()
 	{
-		String ret = "{ " + toStringWithoutBrace() + " }" + (kind==1 ? "_" : "") + (stable ? "/" : "");
+	    String ret = (name==null ? "" : name) +
+                   "{ " + toStringWithoutBrace() + " }" + (kind==1 ? "_" : "") + (stable ? "/" : "");
 		if (pragmaAtHost != null)
 		{
 			ret += "@" + ((ProcessContext)pragmaAtHost).getQualifiedName();

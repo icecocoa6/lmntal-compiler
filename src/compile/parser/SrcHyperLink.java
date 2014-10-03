@@ -5,13 +5,15 @@ package compile.parser;
  */
 class SrcHyperLink extends SrcLink
 {
+    protected SrcName attr;
+
 	/**
 	 * 指定された名前のリンクを作成します
 	 * @param name リンク名
 	 */
-	public SrcHyperLink(String name)
+    public SrcHyperLink(String name, SrcName attr)
 	{
-		super(name, -1);
+	    this(name, attr, -1);
 	}
 
 	/**
@@ -19,9 +21,10 @@ class SrcHyperLink extends SrcLink
 	 * @param name リンク名
 	 * @param lineno 行番号
 	 */
-	public SrcHyperLink(String name, int lineno)
+    public SrcHyperLink(String name, SrcName attr, int lineno)
 	{
-	    super(name, lineno);
+	        super(name, lineno);
+		this.attr = attr;
 	}
 
 	public String getQualifiedName()

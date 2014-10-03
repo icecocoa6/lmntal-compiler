@@ -88,11 +88,6 @@ Link ::=
       {: RESULT = new SrcLink(name.toString(), nameleft); :}
 ;
 
-HyperLink ::=
-    EXCLA LINK_NAME:name
-      {: RESULT = new SrcHyperLink(name.toString(), -1); :}
-;
-
 // 引数なしまたは引数ありのアトムの名前として使用できるリテラル
 FuncName ::=
     ATOM_NAME:name
@@ -107,6 +102,13 @@ FuncName ::=
       {: RESULT = new SrcName(name, SrcName.STRING); :}
   | PATHED_ATOM_NAME:name
       {: RESULT = new SrcName(name, SrcName.PATHED); :}
+;
+
+HyperLink ::=
+    EXCLA LINK_NAME:name
+      {: RESULT = new SrcHyperLink(name.toString(),new SrcName("")); :}//ueda
+  | EXCLA LINK_NAME:name COLON FuncName:attr //ueda
+      {: RESULT = new SrcHyperLink(name.toString(), attr); :}//ueda
 ;
 
 // [a-z][A-Za-z_0-9]* | [0-9]+
